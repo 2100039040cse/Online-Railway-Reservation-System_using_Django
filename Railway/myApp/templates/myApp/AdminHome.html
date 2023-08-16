@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Admin Home</title>
+	<link rel="stylesheet" href="../static/admin_Css2.css">
+	<style>
+		.logo2 {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 200px;
+}
+	</style>
+</head>
+<body>
+<header>
+	<img src="../static/logo2.png" alt="Logo" class="logo2">
+	<h1 class="hd" id="heading">S R T</h1>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:admin-home' %}">Home</a></p1>
+	</div>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:admin-search-train' %}">Search Trains</a></p1>
+	</div>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:view-trains' %}">View Trains</a></p1>
+	</div>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:add-trains' %}">Add Train</a></p1>
+	</div>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:cancle-train' %}">Cancel Train</a></p1>
+	</div>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:admin-update-train' %}">Update Schedule</a></p1>
+	</div>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:admin-login' %}">Logout</a></p1>
+		
+	</div>
+
+	<div class='tab'>
+		<p1 class='menu'>
+	Hey, Admin ! Welcome to our new TIMRS Website
+		</p1>
+	</div>
+</header>
+
+<script>
+    var heading = document.getElementById("heading");
+    var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+    var index = 0;
+
+    setInterval(function() {
+        heading.textContent = headings[index];
+        index = (index + 1) % headings.length;
+    }, 2500);</script>
+</body>
+</html>

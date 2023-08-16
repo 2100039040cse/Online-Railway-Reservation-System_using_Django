@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>User Search Trains</title>
+	<link rel="stylesheet" href="../static/UserHome_Css.css">
+	<style>
+					.button {
+  background-color:MediumBlue ;
+  border: none;
+  border-radius: 1000px;
+  color: white;
+  padding: 10px 18px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-align:center;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+.button:hover {opacity: 10}	
+.logo2 {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 200px;
+}
+
+	</style>
+</head>
+<body>
+<header>
+	<img src="../static/logo2.png" alt="Logo" class="logo2">
+	<h1 class="hd" id="heading">S R T</h1>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:user-home' %}">Home</a></p1>
+	</div>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:my-bookings' %}">My Bookings</a></p1>
+	</div>
+	<div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:pnr-status' %}">PNR Status</a></p1>
+	</div>
+	<div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:avail-ability' %}">Availability</a></p1>
+	</div>
+	<div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:user-profile' %}">Profile</a></p1>
+	</div>
+	<div class="home">
+		<p1 class="menu"><a href="{% url 'myApp:user-login' %}">Logout</a></p1>
+	</div>
+
+	
+</header>
+<div class="main"><p1 class="menu">Trains Enquiry</p1></div>
+<form action="searchtrainservlet" class="tab red" method="post">
+		Enter PNR: <input type="text" name="pnrstatus"><br/><br/>
+		
+		<input type="submit" value=" SEARCH " class = "button"><br/>
+	</form><br/>
+	<script>
+		var heading = document.getElementById("heading");
+		var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+		var index = 0;
+	
+		setInterval(function() {
+			heading.textContent = headings[index];
+			index = (index + 1) % headings.length;
+		}, 2500);</script>
+</body>
+</html>

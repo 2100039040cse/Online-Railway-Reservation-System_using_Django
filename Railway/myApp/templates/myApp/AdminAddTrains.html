@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	  <meta charset="utf-8">
+ 
+	<title>Admin Home - Add Trains</title>
+	<link rel="stylesheet" href="../static/admin_Css2.css">
+	<style>
+		.logo2 {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 200px;
+}
+	</style>
+</head>
+<body>
+<header>
+	<img src="../static/logo2.png" alt="Logo" class="logo2">
+	<h1 class="hd" id="heading">S R T</h1>
+	<div class="home">
+		
+		<p1 class="menu"><a href="{% url 'myApp:admin-home' %}">Home</a></p1>
+	</div>
+	<div class="home">
+		
+		<p1 class="menu"><a href="{% url 'myApp:admin-search-train' %}">Search Trains</a></p1>
+	</div>
+	<div class="home">
+		
+		<p1 class="menu"><a href="{% url 'myApp:view-trains' %}">View Trains</a></p1>
+	</div>
+	<div class="home">
+		
+		<p1 class="menu"><a href="{% url 'myApp:add-trains' %}">Add Train</a></p1>
+	</div>
+	<div class="home">
+		
+		<p1 class="menu"><a href="{% url 'myApp:cancle-train' %}">Cancel Train</a></p1>
+	</div>
+	<div class="home">
+		
+		<p1 class="menu"><a href="{% url 'myApp:admin-update-train' %}">Update Schedule</a></p1>
+	</div>
+	<div class="home">
+		
+		<p1 class="menu"><a href="{% url 'myApp:admin-login' %}">Logout</a></p1>
+	</div>
+</header>
+<div class='main'>
+		<p1 class='menu'>
+			Add Trains
+		</p1>
+	</div>
+
+	
+	<form method="POST" class="tab" action="{% url 'myApp:admin-add-train' %}">
+		{% csrf_token %}
+		<label for="trainno">Train Number:</label>
+		<input type="text" name="trainno" required><br><br>
+		<label for="trainname">Train Name:</label>
+		<input type="text" name="trainname" required><br><br>
+		<label for="fromstation">From Station:</label>
+		<input type="text" name="fromstation" required><br><br>
+		<label for="tostation">To Station:</label>
+		<input type="text" name="tostation" required><br><br>
+		<label for="available">Available:</label>
+		<input type="text" name="available" required><br><br>
+		<label for="fare">Fare (INR):</label>
+		<input type="text" name="fare" required><br><br>
+		<label for="date">Date:</label>
+		<input type="date" name="date" required><br><br>
+		<label for="time">Time:</label>
+		<input type="time" name="time" required><br><br>
+		<button type="submit">Add Train</button>
+	  </form>
+<script>
+    var heading = document.getElementById("heading");
+    var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+    var index = 0;
+
+    setInterval(function() {
+        heading.textContent = headings[index];
+        index = (index + 1) % headings.length;
+    }, 2500);</script>
+</body>
+</html>
+

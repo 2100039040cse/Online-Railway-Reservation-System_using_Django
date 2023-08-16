@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="ISO-8859-1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Admin Home- Search Train</title>
+  <link rel="stylesheet" href="../static/admin_Css2.css">
+  <!-- <link rel="stylesheet" href="../static/AdminSearchTrains.css"> -->
+  <style>
+    .logo2 {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      height: 200px;
+    }
+  
+    .train-details {
+    margin-left: 250px;
+  }
+
+  .train-details table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .train-details th,
+  .train-details td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .train-details th {
+    background-color: #f2f2f2;
+  }
+
+  .train-details .train-row {
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+  }
+
+  .train-details .train-row:hover {
+    background-color: yellow;
+  }
+
+  </style>
+</head>
+
+<body>
+<header>
+  <img src="../static/logo2.png" alt="Logo" class="logo2">
+  <h1 class="hd" id="heading">S R T</h1>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:admin-home' %}">Home</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:admin-search-train' %}">Search Trains</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:view-trains' %}">View Trains</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:add-trains' %}">Add Train</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:cancle-train' %}">Cancel Train</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:admin-update-train' %}">Update Schedule</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:admin-login' %}">Logout</a></p1>
+  </div>
+  <div class='tab'>
+    <p1 class='menu'>
+      Hey, Admin! Welcome to our new TIMRS Website
+    </p1>
+  </div>
+  <div class="main">
+    <p1 class="menu">Search Trains</p1>
+  </div>
+  <form action="{% url 'myApp:admin-search-train' %}" class="tab red" method="post">
+    {% csrf_token %}
+    Train Number: <input type="text" name="trainno"><br/><br/>
+    <input type="submit" value="SEARCH TRAIN" class="button">
+</form>
+  
+  <br/>
+  {% if trains %}
+  <div class="train-details">
+    <h2>Train Details</h2>
+    <table>
+      <tr>
+        <th>Train Number</th>
+        <th>Train Name</th>
+        <th>From Station</th>
+        <th>To Station</th>
+        <th>Available</th>
+        <th>Fare (INR)</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+      {% for train in trains %}
+        <tr class="train-row">
+          <td>{{ train.train_number }}</td>
+          <td>{{ train.train_name }}</td>
+          <td>{{ train.from_station }}</td>
+          <td>{{ train.to_station }}</td>
+          <td>{{ train.available }}</td>
+          <td>{{ train.fare }}</td>
+          <td>{{ train.date}}</td>
+          <td>{{ train.time}}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endif %}
+  <script>
+    var heading = document.getElementById("heading");
+    var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+    var index = 0;
+
+    setInterval(function() {
+      heading.textContent = headings[index];
+      index = (index + 1) % headings.length;
+    }, 2500);
+  </script>
+</body>
+</html>

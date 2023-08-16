@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User Home</title>
+    <link rel="stylesheet" href="../static/UserHome_Css.css">
+    <style>
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Added spacing */
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        /* Equal distance after colons */
+        label {
+            width: 150px;
+            display: inline-block;
+        }
+
+        .logo {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: 200px;
+        }
+
+        .popup-message {
+            display: none;
+            background-color: #f44336;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            width: fit-content;
+            margin-left: 550px;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+                margin-top: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <img src="../static/logo2.png" alt="Logo" class="logo">
+    <h1 class="hd" id="heading">S R T</h1>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:user-home' %}">Home</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:my-bookings' %}">My Bookings</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:pnr-status' %}">PNR Status</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:avail-ability' %}">Availability</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:user-profile' %}">Profile</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:user-login' %}">Logout</a></p1>
+    </div>
+</header>
+<div class="main"><p1 class="menu">Ticket Booking</p1></div>
+
+<div class="popup-message" id="popup-message">Please change the Start Location or Drop Location.</div>
+
+<form action="{% url 'myApp:user-view-trains' %}" class="tab red" method="post" onsubmit="return validateForm()">
+    {% csrf_token %}
+   <div class="form-group">
+       <label for="from-station">From Station:</label>
+       <select name="from-station" id="from-station">
+           <option value="">Start Location</option>
+           <option value="Sirivella">Sirivella</option>
+           <option value="Hyderabad">Hyderabad</option>
+           <option value="Vijayawada">Vijayawada</option>
+           <option value="Kochin">Kochin</option>
+           <option value="Chennai">Chennai</option>
+           <option value="Bengaluru">Bengaluru</option>
+       </select>
+       <span id="from-station-error" class="error-message"></span>
+   </div>
+   <div class="form-group">
+       <label for="to-station">To Station:</label>
+       <select name="to-station" id="to-station">
+           <option value="">Drop Location</option>
+           <option value="Sirivella">Sirivella</option>
+           <option value="Hyderabad">Hyderabad</option>
+           <option value="Vijayawada">Vijayawada</option>
+           <option value="Kochin">Kochin</option>
+           <option value="Chennai">Chennai</option>
+           <option value="Bengaluru">Bengaluru</option>
+       </select>
+       <span id="to-station-error" class="error-message"></span>
+   </div>
+   <div class="form-group">
+       <label for="date">Date: &#128197;</label>
+       <input type="date" name="date" id="date">
+       <span id="date-error" class="error-message"></span>
+   </div>
+   
+   <!-- Captcha and submit button -->
+   
+   <div class="form-group">
+       <label>
+           <input type="checkbox" id="captcha-checkbox" onclick="enableSubmit()">I'm not a robot
+       </label>
+   </div>
+   <div class="button">
+       <button type="submit" id="submit-btn" name="view-trains" disabled><b>View Trains</b></button>
+   </div>
+  
+
+
+
+
+
+
+<script>
+    function enableSubmit() {
+        var checkbox = document.getElementById("captcha-checkbox");
+        var submitBtn = document.getElementById("submit-btn");
+
+        if (checkbox.checked) {
+            submitBtn.disabled = false;
+        } else {
+            submitBtn.disabled = true;
+        }
+    }
+
+    function validateForm() {
+        var fromStation = document.getElementById("from-station").value;
+        var toStation = document.getElementById("to-station").value;
+        var date = document.getElementById("date").value;
+        var quota = document.getElementById("quota").value;
+        var submitBtn = document.getElementById("submit-btn");
+        var popupMessage = document.getElementById("popup-message");
+
+        // Reset error messages
+        document.getElementById("from-station-error").textContent = "";
+        document.getElementById("to-station-error").textContent = "";
+        document.getElementById("date-error").textContent = "";
+        document.getElementById("quota-error").textContent = "";
+
+        var isValid = true;
+
+        if (fromStation === "") {
+            document.getElementById("from-station-error").textContent = "Please select Start Location.";
+            isValid = false;
+        }
+
+        if (toStation === "") {
+            document.getElementById("to-station-error").textContent = "Please select Drop Location.";
+            isValid = false;
+        }
+
+        if (date === "") {
+            document.getElementById("date-error").textContent = "Please select a Date.";
+            isValid = false;
+        }
+
+        if (quota === "") {
+            document.getElementById("quota-error").textContent = "Please select a Quota.";
+            isValid = false;
+        }
+
+        if (fromStation === toStation) {
+            popupMessage.style.display = "block";
+            isValid = false;
+        } else {
+            popupMessage.style.display = "none";
+        }
+
+        if (isValid) {
+            submitBtn.disabled = false;
+        }
+
+        return isValid;
+    }
+
+    // Rotating heading every 3 seconds
+    var heading = document.getElementById("heading");
+    var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+    var index = 0;
+
+    setInterval(function() {
+        heading.textContent = headings[index];
+        index = (index + 1) % headings.length;
+    }, 2500);
+</script>
+
+</body>
+</html> 
+

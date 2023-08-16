@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>ADMIN LOGIN</title>
+    <link rel="stylesheet" href="../static/AdminLogincss.css">
+    <style>
+        .logo2 {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <img src="../static/logo2.png" alt="Logo" class="logo2">
+    <h1 class="hd" id="heading">S R T</h1>
+    <div class="main">
+        <p1 class="menu"><a href="{% url 'myApp:user-login' %}">Login as User</a></p1>
+        <p1 class="menu"><a href="{% url 'myApp:user-register' %}">New User Register</a></p1>
+        <p1 class="menu"><a href="{% url 'myApp:admin-login' %}">Login as Admin</a></p1>
+    </div>
+</header>
+<div class="tab green">Admin Login</div>
+<form action="{% url 'myApp:admin-super-login' %}?refresh=1" class="tab brown" method="post">
+    {% csrf_token %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <br/>User Name: <input type="text" name="username"><br/><br/>
+    Password: <input type="password" name="password"><br/><br/>
+    <input type="submit" value=" LOGIN " class="button"><br/>
+</form>
+
+<script>
+    var heading = document.getElementById("heading");
+    var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+    var index = 0;
+
+    setInterval(function() {
+        heading.textContent = headings[index];
+        index = (index + 1) % headings.length;
+    }, 2500);
+</script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User Confirm Train</title>
+    <link rel="stylesheet" href="{% static 'UserViewTicket.css' %}">
+    <style>
+        .logo2 {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: 150px; /* Adjust the height as needed */
+        }
+
+        .train-table table {
+            border-collapse: collapse;
+            background-color: #f9f9f9;
+            border: 3px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .train-table th,
+        .train-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            color: #333;
+            cursor: pointer;
+            font-size: 12px; /* Adjust the font size as needed */
+        }
+
+        .train-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .passenger-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f9f9f9;
+            border: 3px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative; /* Add this line */
+        }
+
+        .passenger-table th,
+        .passenger-table td {
+            padding: 6px;
+            border: 1px solid #ccc;
+            color: #333;
+            font-size: 10px; /* Adjust the font size as needed */
+        }
+
+        .passenger-table th {
+            background-color: #f2f2f2;
+        }
+
+        .passenger-table tr:hover {
+            background-color: #4cbbda;
+            cursor: pointer;
+        }
+
+        .passenger-table input,
+        .passenger-table select,
+        .passenger-table textarea {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 10px; /* Adjust the font size as needed */
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .add-passenger-btn {
+            padding: 10px 16px;
+            font-size: 12px; /* Adjust the font size as needed */
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .add-passenger-btn:hover {
+            background-color: #45a049;
+        }
+
+        .continue-payment-btn {
+            padding: 10px 16px;
+            font-size: 12px; /* Adjust the font size as needed */
+            background-color: #ff9800;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .continue-payment-btn:hover {
+            background-color: #f57c00;
+        }
+
+        .train-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .show-details {
+            max-height: 500px; /* Adjust the maximum height as needed */
+        }
+
+        .remove-passenger-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 2px;
+            font-size: 20px;
+            cursor: pointer;
+            color: red;
+        }
+
+        .home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+    </style>
+</head>
+<body>
+<header>
+    <img src="{% static 'logo2.png' %}" alt="Logo" class="logo2">
+    <h1 class="hd" id="heading">S R T</h1>
+    <div class="container">
+        <div class="home">
+            <p1 class="menu"><a href="{% url 'myApp:user-home' %}">Change Station</a></p1>
+        </div>
+        <div class="train-table">
+            <table>
+                <tr>
+                    <th onclick="toggleTrainDetails()">Click here to see Train Details</th>
+                </tr>
+            </table>
+            <div class="train-details" id="trainDetails">
+                <table>
+                    {% if train %}
+                    <tr>
+                        <td>Train Number:</td>
+                        <td>{{ train.train_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>Train Name:</td>
+                        <td>{{ train.train_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>From Station:</td>
+                        <td>{{ train.from_station }}</td>
+                    </tr>
+                    <tr>
+                        <td>To Station:</td>
+                        <td>{{ train.to_station }}</td>
+                    </tr>
+                    <tr>
+                        <td>Available:</td>
+                        <td>{{ train.available }}</td>
+                    </tr>
+                    <tr>
+                        <td>Fare:</td>
+                        <td>{{ train.fare }}</td>
+                    </tr>
+                    <tr>
+                        <td>Date:</td>
+                        <td>{{ train.date }}</td>
+                    </tr>
+                    <tr>
+                        <td>Time:</td>
+                        <td>{{ train.time }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2">No train details available.</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+
+        <form action="{% url 'myApp:user-payment' %}" method="post">
+            {% csrf_token %}
+            
+            <h2>Passenger Details</h2>
+            <div class="passenger-table" id="passenger-container">
+                <h3 class="passenger-heading">Passenger 1</h3>
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type="text" name="name1" required></td>
+                    </tr>
+                    <tr>
+                        <td>Age:</td>
+                        <td><input type="number" name="age1" required></td>
+                    </tr>
+                    <tr>
+                        <td>Gender:</td>
+                        <td>
+                            <select name="gender1" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Nationality:</td>
+                        <td><input type="text" name="nationality1" required></td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td><input type="email" name="email1" required></td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td><textarea name="address1" rows="4" required></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Berth:</td>
+                        <td>
+                            <select name="berth1" required>
+                                <option value="">Select Berth</option>
+                                <option value="Upper">Upper</option>
+                                <option value="Lower">Lower</option>
+                                <option value="Middle">Middle</option>
+                                <option value="Side Upper">Side Upper</option>
+                                <option value="Side Lower">Side Lower</option>
+                                <option value="General">General</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AC Category:</td>
+                        <td>
+                            <select name="acCategory1" required>
+                                <option value="">Select AC Category</option>
+                                <option value="AC First Class">AC First Class</option>
+                                <option value="AC 2 Tier">AC 2 Tier</option>
+                                <option value="AC 3 Tier">AC 3 Tier</option>
+                                <option value="General">General</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" id="add-passenger-btn" class="add-passenger-btn">Add Passenger</button>
+                <div class="btn-confirm">
+                    <button type="submit">Confirm and Continue to Payment</button>
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</header>
+
+<script>
+    var heading = document.getElementById("heading");
+    var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+    var index = 0;
+
+    setInterval(function () {
+        heading.textContent = headings[index];
+        index = (index + 1) % headings.length;
+    }, 2500);
+
+    function toggleTrainDetails() {
+        var trainDetails = document.getElementById("trainDetails");
+        trainDetails.classList.toggle("show-details");
+    }
+
+    var passengerCount = 1;
+
+document.querySelector(".add-passenger-btn").addEventListener("click", function () {
+    passengerCount++;
+
+    var passengerContainer = document.getElementById("passenger-container");
+
+    var newPassenger = document.createElement("div");
+    newPassenger.className = "passenger-table";
+
+    var table = document.createElement("table");
+
+    var headingRow = document.createElement("tr");
+    var heading = document.createElement("th");
+    heading.colSpan = "2";
+    heading.textContent = "Passenger " + passengerCount;
+    headingRow.appendChild(heading);
+
+    var nameRow = document.createElement("tr");
+    var nameLabel = document.createElement("td");
+    nameLabel.textContent = "Name:";
+    var nameInput = document.createElement("td");
+    nameInput.innerHTML = '<input type="text" name="name' + passengerCount + '" required>';
+
+    var ageRow = document.createElement("tr");
+    var ageLabel = document.createElement("td");
+    ageLabel.textContent = "Age:";
+    var ageInput = document.createElement("td");
+    ageInput.innerHTML = '<input type="number" name="age' + passengerCount + '" required>';
+
+    var genderRow = document.createElement("tr");
+    var genderLabel = document.createElement("td");
+    genderLabel.textContent = "Gender:";
+    var genderInput = document.createElement("td");
+    genderInput.innerHTML = `
+        <select name="gender${passengerCount}" required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>`;
+
+    var nationalityRow = document.createElement("tr");
+    var nationalityLabel = document.createElement("td");
+    nationalityLabel.textContent = "Nationality:";
+    var nationalityInput = document.createElement("td");
+    nationalityInput.innerHTML = '<input type="text" name="nationality' + passengerCount + '" required>';
+
+    var emailRow = document.createElement("tr");
+    var emailLabel = document.createElement("td");
+    emailLabel.textContent = "Email:";
+    var emailInput = document.createElement("td");
+    emailInput.innerHTML = '<input type="email" name="email' + passengerCount + '" required>';
+
+    var addressRow = document.createElement("tr");
+    var addressLabel = document.createElement("td");
+    addressLabel.textContent = "Address:";
+    var addressInput = document.createElement("td");
+    addressInput.innerHTML = '<textarea name="address' + passengerCount + '" rows="4" required></textarea>';
+
+    var berthRow = document.createElement("tr");
+    var berthLabel = document.createElement("td");
+    berthLabel.textContent = "Berth:";
+    var berthInput = document.createElement("td");
+    berthInput.innerHTML = `
+        <select name="berth${passengerCount}" required>
+            <option value="">Select Berth</option>
+            <option value="Upper">Upper</option>
+            <option value="Lower">Lower</option>
+            <option value="Middle">Middle</option>
+            <option value="Side Upper">Side Upper</option>
+            <option value="Side Lower">Side Lower</option>
+            <option value="General">General</option>
+        </select>`;
+
+    var acTypeRow = document.createElement("tr");
+    var acTypeLabel = document.createElement("td");
+    acTypeLabel.textContent = "AC Type:";
+    var acTypeInput = document.createElement("td");
+    acTypeInput.innerHTML = `
+        <select name="acType${passengerCount}" required>
+            <option value="">Select AC Type</option>
+            <option value="AC1">AC 1 Tier</option>
+            <option value="AC2">AC 2 Tier</option>
+            <option value="AC3">AC 3 Tier</option>
+            <option value="ACCC">AC Chair Car</option>
+            <option value="Sleeper">Sleeper Class</option>
+        </select>`;
+
+    nameRow.appendChild(nameLabel);
+    nameRow.appendChild(nameInput);
+
+    ageRow.appendChild(ageLabel);
+    ageRow.appendChild(ageInput);
+
+    genderRow.appendChild(genderLabel);
+    genderRow.appendChild(genderInput);
+
+    nationalityRow.appendChild(nationalityLabel);
+    nationalityRow.appendChild(nationalityInput);
+
+    emailRow.appendChild(emailLabel);
+    emailRow.appendChild(emailInput);
+
+    addressRow.appendChild(addressLabel);
+    addressRow.appendChild(addressInput);
+
+    berthRow.appendChild(berthLabel);
+    berthRow.appendChild(berthInput);
+
+    acTypeRow.appendChild(acTypeLabel);
+    acTypeRow.appendChild(acTypeInput);
+
+    table.appendChild(headingRow);
+    table.appendChild(nameRow);
+    table.appendChild(ageRow);
+    table.appendChild(genderRow);
+    table.appendChild(nationalityRow);
+    table.appendChild(emailRow);
+    table.appendChild(addressRow);
+    table.appendChild(berthRow);
+    table.appendChild(acTypeRow);
+
+    newPassenger.appendChild(table);
+
+    // Add the remove passenger button
+    var removePassengerBtn = document.createElement("span");
+    removePassengerBtn.className = "remove-passenger-btn";
+    removePassengerBtn.textContent = "X";
+    removePassengerBtn.addEventListener("click", function () {
+        passengerContainer.removeChild(newPassenger);
+    });
+    newPassenger.appendChild(removePassengerBtn);
+
+    passengerContainer.appendChild(newPassenger);
+});
+
+document.querySelector(".continue-payment-btn").addEventListener("click", function (event) {
+    var passengerInputs = document.querySelectorAll(".passenger-table input, .passenger-table select, .passenger-table textarea");
+    var isFormComplete = true;
+
+    for (var i = 0; i < passengerInputs.length; i++) {
+        if (passengerInputs[i].value === "") {
+            isFormComplete = false;
+            break;
+        }
+    }
+
+    if (!isFormComplete) {
+        event.preventDefault();
+        alert("Please fill in all the details before proceeding to payment.");
+    }
+});
+
+</script>
+</body>
+</html>

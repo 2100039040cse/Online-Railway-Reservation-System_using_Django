@@ -1,0 +1,25 @@
+.button {
+    background-color: blue;
+    border: none;
+    border-radius: 1000px;
+    color: white;
+    padding: 10px 18px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    text-align:center;
+    margin: 4px 2px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .button:hover {opacity: 10}
+
+  .logo2 {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 200px;
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>User Profile</title>
+	<link rel="stylesheet" href="../static/UserViewTrains.css">
+	<style>
+		.logo2 {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 200px;
+}
+	</style>
+</head>
+<body>
+<header>
+    <img src="../static/logo2.png" alt="Logo" class="logo2">
+	<h1 class="hd" id="heading">S R T</h1>
+	<div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:user-home' %}">Home</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:my-bookings' %}">My Bookings</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:pnr-status' %}">PNR Status</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:avail-ability' %}">Availability</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:user-profile' %}">Profile</a></p1>
+    </div>
+    <div class="home">
+        <p1 class="menu"><a href="{% url 'myApp:user-login' %}">Logout</a></p1>
+    </div>
+</header>
+<table class="tab brown ">
+    <tr>
+        <td>User Profile</td>
+    </tr>
+</table>
+
+<table class="tab green" border="0px">
+
+    <tr>
+        <td>
+            <h3>Registration Details:</h3>
+            <p>Username: {{ profile.user.username }}</p>
+            <p>Aadhar: {{ profile.aadhar }}</p>
+            <p>Date of Birth: {{ profile.dob }}</p>
+            <p>Address: {{ profile.address }}</p>
+            <p>Phone Number: {{ profile.phoneno }}</p>
+            <p>Email: {{ profile.mailid }}</p>
+        </td>
+    </tr>
+</table>
+<script>
+    var heading = document.getElementById("heading");
+    var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+    var index = 0;
+
+    setInterval(function() {
+        heading.textContent = headings[index];
+        index = (index + 1) % headings.length;
+    }, 2500);</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../static/UserViewTrains.css">
+    <style>
+        .logo2 {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: 200px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .details {
+            flex-basis: calc(100% - 250px);
+            margin-right: 20px;
+        }
+        .buttons {
+            width: 200px;
+        }
+        .menu {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .menu a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <img src="../static/logo2.png" alt="Logo" class="logo2">
+    <h1 class="hd" id="heading">S R T</h1>
+    <div class="container">
+        <div class="details">
+            <table class="tab green" border="0px">
+                <tr>
+                    <td>
+                        <h3>Registration Details:</h3>
+                        <p>Username: {{ profile.user.username }}</p>
+                        <p>Aadhar: {{ profile.aadhar }}</p>
+                        <p>Date of Birth: {{ profile.dob }}</p>
+                        <p>Address: {{ profile.address }}</p>
+                        <p>Phone Number: {{ profile.phoneno }}</p>
+                        <p>Email: {{ profile.mailid }}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="buttons">
+            <div class="home">
+                <p1 class="menu"><a href="{% url 'myApp:user-home' %}">Home</a></p1>
+            </div>
+            <div class="home">
+                <p1 class="menu"><a href="{% url 'myApp:my-bookings' %}">My Bookings</a></p1>
+            </div>
+            <div class="home">
+                <p1 class="menu"><a href="{% url 'myApp:pnr-status' %}">PNR Status</a></p1>
+            </div>
+            <div class="home">
+                <p1 class="menu"><a href="{% url 'myApp:avail-ability' %}">Availability</a></p1>
+            </div>
+            <div class="home">
+                <p1 class="menu"><a href="{% url 'myApp:user-login' %}">Logout</a></p1>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<script>
+    var heading = document.getElementById("heading");
+    var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+    var index = 0;
+
+    setInterval(function() {
+        heading.textContent = headings[index];
+        index = (index + 1) % headings.length;
+    }, 2500);</script>
+</body>
+</html> -->

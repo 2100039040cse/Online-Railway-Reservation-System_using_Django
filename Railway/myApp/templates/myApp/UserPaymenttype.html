@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI Payment</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        
+        .payment-container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .payment-container h1 {
+            margin-top: 0;
+            color: #333333;
+        }
+        
+        .payment-container img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        
+        .payment-methods {
+            margin-bottom: 20px;
+        }
+        
+        .payment-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .payment-option img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .payment-option button {
+            background-color: #0066ff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .payment-option button:hover {
+            background-color: #0052cc;
+        }
+        
+        #pin-entry {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        #pin-entry h2 {
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        
+        #pin-entry .form-group {
+            margin-bottom: 20px;
+        }
+        
+        #pin-entry label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333333;
+            font-weight: bold;
+        }
+        
+        #pin-entry input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        #pin-entry input[type="password"]::placeholder {
+            color: #999999;
+        }
+        
+        #pin-entry input[type="password"]:focus {
+            outline: none;
+            border-color: #0066ff;
+        }
+        
+        #pin-entry button {
+            background-color: #0066ff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        #pin-entry button:hover {
+            background-color: #0052cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1>UPI Payment</h1>
+        <img src="logo.png" alt="Payment Logo">
+        <div class="payment-methods">
+            <h2>Select Payment Method</h2>
+            <div class="payment-option">
+                <img src="../static/phonepay.png" alt="PhonePe Logo">
+                <form id="phonepe-form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="payment-method" value="phonepe">
+                </form>
+                <button onclick="submitForm('phonepe-form')">PhonePe</button>
+            </div>
+            <div class="payment-option">
+                <img src="../static/gpay.jpg" alt="Google Pay Logo">
+                <form id="googlepay-form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="payment-method" value="googlepay">
+                </form>
+                <button onclick="submitForm('googlepay-form')">Google Pay</button>
+            </div>
+            <div class="payment-option">
+                <img src="../static/paytm.png" alt="Paytm Logo">
+                <form id="paytm-form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="payment-method" value="paytm">
+                </form>
+                <button onclick="submitForm('paytm-form')">Paytm</button>
+            </div>
+        </div>
+
+        <div id="pin-entry">
+            <h2>Enter UPI PIN</h2>
+            <form action="{% url 'myApp:payment-status' %}" method="post">
+                {% csrf_token %}
+                <!-- Your form fields and other elements here -->
+                <!-- For example, if the form contains an 'upi-pin' field -->
+                <div class="form-group">
+                    <label for="upi-pin">UPI PIN</label>
+                    <input type="text" id="upi-pin" name="upi-pin" placeholder="Enter UPI PIN" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Pay with Phone Pe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function enterPin(paymentMethod) {
+            var form = document.createElement("form");
+            form.action = "{% url 'myApp:payment-status' %}";
+            form.method = "post";
+            document.body.appendChild(form);
+
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "payment-method";
+            input.value = paymentMethod;
+            form.appendChild(input);
+
+            // Include other input fields for train and user details here
+            // ...
+
+            // Include passenger details here
+            var passengerInputs = document.querySelectorAll(".passenger-table input, .passenger-table select, .passenger-table textarea");
+            for (var i = 0; i < passengerInputs.length; i++) {
+                var passengerInput = document.createElement("input");
+                passengerInput.type = "hidden";
+                passengerInput.name = passengerInputs[i].name;
+                passengerInput.value = passengerInputs[i].value;
+                form.appendChild(passengerInput);
+            }
+
+            form.submit();
+        }
+
+        function submitForm(formId) {
+            var form = document.getElementById(formId);
+            form.submit();
+        }
+    </script>
+</body>
+</html>

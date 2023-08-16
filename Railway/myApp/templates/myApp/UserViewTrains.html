@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="ISO-8859-1">
+  <title>User View Trains</title>
+  <link rel="stylesheet" href="../static/admin_Css2.css">
+  <style>
+    .logo2 {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      height: 200px;
+    }
+
+    .table {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      background-color: rgb(232, 189, 110);
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid rgb(23, 23, 21);
+      
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .train-row {
+      background-color: #f9f9f9;
+      transition: background-color 0.3s;
+    }
+
+    .train-row:hover {
+      background-color: #e2e2e2;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="../static/logo2.png" alt="Logo" class="logo2">
+  <h1 class="hd" id="heading">S R T</h1>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:user-home' %}">Home</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:my-bookings' %}">My Bookings</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:pnr-status' %}">PNR Status</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:avail-ability' %}">Availability</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:user-profile' %}">Profile</a></p1>
+  </div>
+  <div class="home">
+    <p1 class="menu"><a href="{% url 'myApp:user-login' %}">Logout</a></p1>
+  </div>
+</header>
+<div class="table">
+  <h2>Available Trains:</h2>
+  {% if trains %}
+    <table>
+      <tr>
+        <th>Train Number</th>
+        <th>Train Name</th>
+        <th>From Station</th>
+        <th>To Station</th>
+        <th>Available</th>
+        <th>Fare</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Action</th>
+      </tr>
+      {% for train in trains %}
+      <tr class="train-row">
+        <td>{{ train.train_number }}</td>
+        <td>{{ train.train_name }}</td>
+        <td>{{ train.from_station }}</td>
+        <td>{{ train.to_station }}</td>
+        <td>{{ train.available }}</td>
+        <td>{{ train.fare }}</td>
+        <td>{{ train.date }}</td>
+        <td>{{ train.time }}</td>
+        <td><a href="{% url 'myApp:user-confirm-train' %}">View Details</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No trains found.</p>
+  {% endif %}
+</div>
+
+<script>
+  var heading = document.getElementById("heading");
+  var headings = ["SOUTHZONE RAILWAY TICKETS", "Welcome to SRT", "Book your train tickets with ease"];
+  var index = 0;
+
+  setInterval(function() {
+    heading.textContent = headings[index];
+    index = (index + 1) % headings.length;
+  }, 2500);
+</script>
+
+</body>
+</html>
