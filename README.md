@@ -5,7 +5,7 @@ Djang setup in VS Code YOUTUBE LINK--->>> https://youtu.be/eOVLhM6_6t0
 
 (or)
 
-
+ 
 DOWNLOAD GIT BASH  
 open new terminal  
 select gitbash from plus button:  
