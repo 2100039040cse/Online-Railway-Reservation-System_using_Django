@@ -77,7 +77,7 @@ This extension provides code analysis, debugging, and other features for Python 
 2. Django Extension:  
 Install the "Django" extension by Baptiste Darthenay from the VS Code marketplace.  
 This extension adds features specifically tailored for Django development, including template language support, code snippets, and more.  
-3. Git Extension:  
+3. Git Extension:   
 If not already installed, install the "GitLens" extension by Eric Amodio.  
 This extension enhances Git integration within VS Code, providing inline blame annotations, code lens for Git information, and more.  
 4. Database Extension (optional):  
