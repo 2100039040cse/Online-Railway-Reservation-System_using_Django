@@ -1,4 +1,4 @@
-# Online-Railway-Reservation-System_using_Django
+# Online-Railway-Reservation-System_using_Django 
 It offers users the ability to check seat availability, make reservations, and purchase tickets, simplifying the ticketing process and enhancing the travel experience. And also provides administrative functionalities. The admin can add new trains, cancel existing ones, and view passenger lists.
 
 Djang setup in VS Code YOUTUBE LINK--->>> https://youtu.be/eOVLhM6_6t0
